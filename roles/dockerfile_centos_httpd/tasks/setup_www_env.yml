@@ -1,0 +1,17 @@
+---
+
+
+       -  name: create webpage dir
+          file:
+            path: "{{ webpage_dir }}"
+            state: directory
+            mode: 0755
+            owner: "{{ dir_owner }}"
+            group: "{{ dir_grp }}"
+
+       -  name: copy www file from controler to host
+          copy:
+            src: "{{ www_file }}"
+            #src: "/home/tomek/gitaws/testowe/roles/dockerfile_centos_httpd/files/docker.html"
+            dest: "{{ webpage_dir }}"
+

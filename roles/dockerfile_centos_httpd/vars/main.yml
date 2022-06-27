@@ -1,0 +1,14 @@
+---
+# vars file for dockerfile_centos_httpd
+
+repo_url: https://download.docker.com/linux/centos/8/x86_64/stable/
+user_to_add: tomek
+add_to_group: docker
+webpage_dir: /home/tomek/www
+dir_owner: tomek
+dir_grp: tomek
+www_file: docker.html
+dockerfile_dest: /home/tomek/dockerfile
+image_name: httpd_centos_test
+container_name: www_test
+mount: "/home/tomek/www/:/var/www/html/"

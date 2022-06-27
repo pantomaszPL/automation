@@ -1,0 +1,24 @@
+
+---
+  -  name: start
+    #hosts: all
+     hosts: "{{ hosts_prompt }}"
+     #     vars_prompt:
+       #       - name: hosts_prompt
+         #         prompt: provide hostname
+         #         private: no
+     user: root
+     become: false
+     tasks:
+       -  name: jakas komenda
+          command: lsblk
+          register: wynik
+       -  name: debug
+          debug:
+            msg: "{{ wynik }}"
+       -  name: wynik stdout
+          debug:
+            msg: "{{ wynik.stdout }}"
+       -  name: wynik rc
+          debug:
+            msg: "{{ wynik.rc }}"

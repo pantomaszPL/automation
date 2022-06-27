@@ -1,0 +1,35 @@
+
+---
+
+
+
+       -  name: copy dockerfile from controler to host
+          copy:
+            src: dockerfile
+            dest: "{{ dockerfile_dest }}"
+
+
+       -  name: create http server image
+          docker_image:
+           build:
+             path: /home/tomek/
+             dockerfile: dockerfile
+           name: "{{ image_name }}"
+           source: build
+           state: present
+
+       -  name: create and launch http server container
+          docker_container:
+            name: "{{ container_name }}"
+            image: "{{ image_name }}"
+            state: started
+            ports: "8080:80"
+            volumes:
+              - "{{ mount }}"
+
+
+       -  name: check container status
+          command: "docker ps"
+          register: result
+       -  debug: var=result.stdout
+

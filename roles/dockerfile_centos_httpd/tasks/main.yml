@@ -1,0 +1,7 @@
+---
+# tasks file for dockerfile_centos_httpd
+
+
+  - import_tasks: installdocker.yml
+  - import_tasks: setup_www_env.yml
+  - import_tasks: imageandcontainer.yml

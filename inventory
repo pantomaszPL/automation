@@ -1,0 +1,13 @@
+[proxmoxsrv]
+proxmox ansible_hosts=192.168.1.32
+
+[vmki]
+dhcp ansible_hosts=192.168.1.64
+db ansible_hosts=192.168.1.65
+zabbix ansible_hosts=192.168.1.69
+test ansible_hosts=192.168.1.70
+docker 
+
+[database]
+db ansible_hosts=192.168.1.65
+
