@@ -1,0 +1,4 @@
+---
+# tasks file for zabbixagent
+#
+ - include_tasks: agentinstall.yml

@@ -1,0 +1,41 @@
+---
+# tasks file for proxmox_vm_create
+#
+
+  -  name: vm is being created
+     community.general.proxmox_kvm:
+       api_user: "{{ api_user }}"
+       api_password: "{{ api_password }}"
+       api_host: "{{ api_host }}"
+       agent: yes
+       name: "{{ nazwa }}"
+       node: "{{ node }}"
+       state: present
+       newid: "{{ vm_uid }}"
+       clone: "{{ clone }}"
+       storage: "{{ storage }}"
+       format: "{{ format }}"
+       timeout: 900
+
+
+
+       #-  name: add NEW group note to vm
+       #lineinfile:
+       #path: /etc/pve/qemu-server/{{ vm_uid }}.conf
+       #insertbefore: BOF
+       #line: '#{ "groups": ["new"] }'        
+
+
+       # -  name: start created vm
+       #community.general.proxmox_kvm:
+       #api_user: "{{ api_user}}"
+       #api_password: "{{ api_password }}"
+       #api_host: "{{ api_host }}"
+       #name: "{{ nazwa }}"
+       #node: "{{ node }}"
+       #state: started
+
+     
+
+
+

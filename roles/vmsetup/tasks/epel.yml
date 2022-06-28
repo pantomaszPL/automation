@@ -1,0 +1,5 @@
+---
+       -  name: epel installed
+          yum:
+            name: "{{ epel_pckg }}"
+            state: present

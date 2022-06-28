@@ -1,0 +1,6 @@
+---
+  -  name: zabbix agent install role start
+     hosts: new
+     become: true
+     roles:
+       - zabbixagent

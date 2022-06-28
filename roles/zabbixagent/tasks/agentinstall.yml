@@ -1,0 +1,32 @@
+---
+  -  name: install zabbix repo
+     yum_repository:
+       name: zabbix
+       description: zabbix_repo
+       baseurl: http://repo.zabbix.com/zabbix/5.0/rhel/8/$basearch/
+       enabled: yes
+       gpgcheck: no
+       state: present
+
+  -  name: install zabbix agent
+     yum:
+       name: "{{ item }}"
+       state: latest
+     loop:
+       - vim
+       - zabbix-agent
+       - zabbix-sender    
+  -  name: copy config template
+     template:
+       src: zabbix_agentd.conf.j2
+       dest: /etc/zabbix/zabbix_agentd.conf
+       owner: root
+       mode: 644
+       force: yes
+
+  -  name: enable zabbix service
+     service:
+       name: zabbix-agent
+       state: started
+       enabled: true    
+   

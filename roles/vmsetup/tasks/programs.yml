@@ -1,0 +1,23 @@
+---
+       -  name: install programs
+          yum:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - "{{ python_pckg }}"
+            - "{{ tree_pckg }}"
+            - "{{ cockpit_pckg }}"
+            - rsync
+            - vim
+
+       -  name: enable cockpit service
+          systemd: 
+            name: "cockpit.socket"
+            state: started
+            enabled: true
+
+       -  name: set firewall for cockpit
+          firewalld:
+            service: cockpit
+            state: enabled
+            permanent: yes

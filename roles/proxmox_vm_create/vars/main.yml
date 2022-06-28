@@ -1,0 +1,15 @@
+---
+# vars file for proxmox_vm_create
+#
+  api_user: root@pam
+  api_password: 'tomek211'
+  api_host: pve
+  #name: test1
+  node: pve
+  state: present
+  clone: alma8templ
+  storage: usbdisk
+  format: qcow2
+  timeout: 500
+
+

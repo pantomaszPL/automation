@@ -1,0 +1,7 @@
+---
+# tasks file for vmsetup
+  - include_vars: secret.yml
+  - import_tasks: userandkeys.yml
+  - import_tasks: programs.yml
+  - import_tasks: epel.yml
+  - import_tasks: defaulttarget.yml

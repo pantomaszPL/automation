@@ -1,0 +1,60 @@
+---
+
+
+  -  name: config created vm start
+     hosts: "{{ vm }}"
+     user: root
+     vars_prompt:
+       -  name: vm_hostname
+          prompt: provide vm new hostname
+          private: no
+       -  name: vm
+          prompt: provide name where to start playbook
+          private: no
+     roles:
+       -  proxmox_config_vm
+
+
+  -  name: db2 query tasks phase
+     hosts: db
+     gather_facts: no
+     tasks:
+       -  name: query for first free ip
+          postgresql_query:
+            db: ipki
+            query: SELECT ip FROM ipki WHERE used = 'n' LIMIT 1
+            login_user: postgres
+            login_password: tomek211
+          register: query_output
+          become: yes
+          become_user: postgres
+
+       -  name: debug - and get ip from output
+          debug:
+            msg: "{{ query_output.query_result[0]['ip'] }}"
+        
+
+       -  name: set selected ip  as used
+          postgresql_query:
+            db: ipki
+            query: UPDATE ipki SET used = 'y' WHERE ip = %(ipek)s
+            named_args: 
+              ipek: "{{ query_output.query_result[0]['ip']}}"
+            login_user: postgres
+            login_password: tomek211
+          become: true
+          become_user: postgres
+
+       - name: copy ip to file
+         copy:
+           content: "ip: {{ query_output.query_result[0]['ip'] }}"
+           dest: /tmp/ipek.yml
+
+       -  name: fetch ip file
+          fetch:
+            src: /tmp/ipek.yml
+            dest: /home/tomek/ansible/roles/vars/ipek.yml
+            flat: yes
+        
+
+

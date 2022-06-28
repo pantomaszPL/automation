@@ -1,0 +1,9 @@
+---
+# vars file for vmsetup
+
+#  username: ansible
+  epel_pckg: epel-release
+  python_pckg: python3
+  tree_pckg: tree
+  cockpit_pckg: cockpit
+

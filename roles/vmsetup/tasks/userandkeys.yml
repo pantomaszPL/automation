@@ -1,0 +1,21 @@
+---
+
+       -  name: add tomek user and grp
+          user:
+            name: tomek
+            password: "{{ passwd | password_hash('sha512') }}"
+            state: present
+       -  name: config sudoers
+          copy:
+            content: " %tomek ALL=(ALL) NOPASSWD: ALL"
+            dest: /etc/sudoers.d/ansible
+
+       -  name: sets sshd keys
+          authorized_key:
+            user:  tomek
+            state: present
+            key: "{{ lookup('file','/home/tomek/.ssh/id_rsa.pub') }}"
+       -  name: sshd restart
+          service:
+            name: sshd
+            state: restarted

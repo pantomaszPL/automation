@@ -1,0 +1,6 @@
+---
+       -  name: set default target
+          file:
+            src: /usr/lib/systemd/system/multi-user.target
+            dest: /etc/systemd/system/default.target
+            state: link
