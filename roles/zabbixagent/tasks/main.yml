@@ -1,5 +1,6 @@
 ---
 # tasks file for zabbixagent
 #
-# - include_tasks: agentinstall.yml
- - include_tasks: server_config.yml   
+ - include_tasks: agentinstall.yml
+   #not working atm
+   # - include_tasks: server_config.yml   

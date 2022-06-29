@@ -2,17 +2,17 @@
 ---
   -  name: zabbix server config start
      local_action:
-       module: zabbix_host
-       server_url: http://192.168.1.158/zabbix/
+       module: community.zabbix.zabbix_host
+       server_url: http://192.168.1.158/zabbix
        login_user: Admin
        login_password: tomek211
        host_name: '{{ ansible_hostname}}'
        host_groups:
          - Linux servers
        link_templates:
-         - "{{ templates}}"
-       status: enabled
+         - Template linux_vms
        state: present
+       status: enabled
        interfaces:
          - type: 1
            main: 1
