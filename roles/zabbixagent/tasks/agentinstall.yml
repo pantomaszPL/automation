@@ -23,7 +23,12 @@
        owner: root
        mode: 644
        force: yes
-
+  -  name: setup firewall
+     firewalld:
+       port: 10050/tcp
+       state: enabled
+       permanent: true
+       
   -  name: enable zabbix service
      service:
        name: zabbix-agent

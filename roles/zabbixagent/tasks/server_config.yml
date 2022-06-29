@@ -1,0 +1,21 @@
+
+---
+  -  name: zabbix server config start
+     local_action:
+       module: zabbix_host
+       server_url: http://192.168.1.158/zabbix/
+       login_user: Admin
+       login_password: tomek211
+       host_name: '{{ ansible_hostname}}'
+       host_groups:
+         - Linux servers
+       link_templates:
+         - "{{ templates}}"
+       status: enabled
+       state: present
+       interfaces:
+         - type: 1
+           main: 1
+           useip: 1
+           ip: "{{[ansible_ens19.ipv4.address]}}"
+           port: 10050

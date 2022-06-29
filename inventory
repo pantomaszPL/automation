@@ -11,3 +11,5 @@ docker
 [database]
 db ansible_hosts=192.168.1.65
 
+[new]
+192.168.1.77
