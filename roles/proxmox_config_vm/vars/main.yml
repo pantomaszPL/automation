@@ -1,0 +1,13 @@
+---
+# vars file for proxmox_config_vm
+
+# setuping vm vars
+
+  epel_pckg: epel-release
+  python_pckg: python3
+  tree_pckg: tree
+  cockpit_pckg: cockpit
+  fail2ban_pckg: fail2ban
+  wget_pckg: wget
+  ntfs3g_pckg: ntfs-3g
+

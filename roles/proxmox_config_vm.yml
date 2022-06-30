@@ -2,7 +2,7 @@
 
 
   -  name: config created vm start
-     hosts: "{{ vm }}"
+     hosts: new
      user: root
      vars_prompt:
        -  name: vm_hostname
@@ -22,7 +22,7 @@
        -  name: query for first free ip
           postgresql_query:
             db: ipki
-            query: SELECT ip FROM ipki WHERE used = 'n' LIMIT 1
+            query: SELECT ip1 FROM ipki WHERE used = 'n' LIMIT 1
             login_user: postgres
             login_password: tomek211
           register: query_output
@@ -31,15 +31,15 @@
 
        -  name: debug - and get ip from output
           debug:
-            msg: "{{ query_output.query_result[0]['ip'] }}"
-        
-
+            msg: "{{ query_output.query_result[0]['ip1'] }}"
+          
+   #not working atm
        -  name: set selected ip  as used
           postgresql_query:
             db: ipki
-            query: UPDATE ipki SET used = 'y' WHERE ip = %(ipek)s
+            query: UPDATE ipki SET used = 'y' WHERE ip1 = %(ipek)s
             named_args: 
-              ipek: "{{ query_output.query_result[0]['ip']}}"
+              ipek: "{{ query_output.query_result[0]['ip1']}}"
             login_user: postgres
             login_password: tomek211
           become: true
@@ -47,14 +47,30 @@
 
        - name: copy ip to file
          copy:
-           content: "ip: {{ query_output.query_result[0]['ip'] }}"
-           dest: /tmp/ipek.yml
+           content: "{{ query_output.query_result[0]['ip1'] }}"
+           dest: /tmp/ipek.txt
 
        -  name: fetch ip file
           fetch:
-            src: /tmp/ipek.yml
-            dest: /home/tomek/ansible/roles/vars/ipek.yml
+            src: /tmp/ipek.txt
+            dest: ipek.txt
             flat: yes
         
 
-
+  -  name: setup new ip on newhost
+     hosts: new
+     gather_facts: no
+     become: true
+     vars:
+       ipek: "{{ lookup('file','ipek.txt')}}"
+     tasks:
+       -  name: modify ip
+          nmcli:
+            conn_name: ens18
+            type: ethernet
+            state: present
+            ip4: "{{ ipek }}"
+       - name: reboot 
+         reboot:
+           reboot_timeout: 180  
+          
