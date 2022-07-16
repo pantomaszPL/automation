@@ -26,15 +26,6 @@
        #line: '#{ "groups": ["new"] }'        
 
 
-       # -  name: start created vm
-       #community.general.proxmox_kvm:
-       #api_user: "{{ api_user}}"
-       #api_password: "{{ api_password }}"
-       #api_host: "{{ api_host }}"
-       #name: "{{ nazwa }}"
-       #node: "{{ node }}"
-       #state: started
-
      
 
 

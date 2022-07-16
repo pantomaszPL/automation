@@ -1,0 +1,12 @@
+---
+# tasks file for proxmox_start_vm
+#
+  -  name: vm to be started
+     community.general.proxmox_kvm:
+       api_user: "{{api_user}}"
+       api_password: "{{ api_password }}"
+       api_host: "{{ api_host }}"
+       name: "{{ nazwa }}"
+       node: "{{ node }}"
+       state: started
+

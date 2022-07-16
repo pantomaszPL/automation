@@ -8,9 +8,9 @@
        -  name: vm_hostname
           prompt: provide vm new hostname
           private: no
-       -  name: vm
-          prompt: provide name where to start playbook
-          private: no
+          #    -  name: vm
+          # prompt: provide name where to start playbook
+          #private: no
      roles:
        -  proxmox_config_vm
 
@@ -33,7 +33,7 @@
           debug:
             msg: "{{ query_output.query_result[0]['ip1'] }}"
           
-   #not working atm
+   
        -  name: set selected ip  as used
           postgresql_query:
             db: ipki

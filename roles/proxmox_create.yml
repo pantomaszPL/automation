@@ -13,15 +13,16 @@
      gather_facts: false
      roles: 
        -  proxmox_vm_create
-     tasks:
-       -  name: start created vm
-          community.general.proxmox_kvm:
-            api_user: "{{ api_user}}"
-            api_password: "{{ api_password }}"
-            api_host: "{{ api_host }}"
-            name: "{{ nazwa }}"
-            node: "{{ node }}"
-            state: started
+       -  proxmox_start_vm
+         #tasks:
+         #-  name: start created vm
+         # community.general.proxmox_kvm:
+         #   api_user: "{{ api_user}}"
+         #   api_password: "{{ api_password }}"
+         #   api_host: "{{ api_host }}"
+         #   name: "{{ nazwa }}"
+         #   node: "{{ node }}"
+         #   state: started
 
 
 
