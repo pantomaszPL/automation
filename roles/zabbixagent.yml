@@ -1,6 +1,10 @@
 ---
   -  name: zabbix agent install role start
-     hosts: db
+     hosts: "{{ hosts_prompt }}"
      become: true
+     vars_prompt:
+       - name: hosts_prompt
+         prompt: provide host name
+         private: no
      roles:
        - zabbixagent
