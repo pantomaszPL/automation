@@ -6,7 +6,8 @@ dhcp ansible_hosts=192.168.1.64
 db ansible_hosts=192.168.1.65
 zabbix ansible_hosts=192.168.1.69
 test ansible_hosts=192.168.1.70
-docker 
+kub1 ansible_hosts=192.168.1.124
+kub2 ansible_hosts=192.168.1.111 
 
 [database]
 db ansible_hosts=192.168.1.65
