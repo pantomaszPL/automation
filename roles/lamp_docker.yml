@@ -1,0 +1,8 @@
+---
+
+  -  name: lamp_on_docker_playbook_start
+     hosts: docker
+     gather_facts: no
+     become: true
+     roles:
+       - lamp_docker

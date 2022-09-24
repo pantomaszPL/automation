@@ -1,0 +1,16 @@
+---
+# tasks file for lamp_docker
+
+  -  name: install python prereq
+     pip:
+       name:
+         - docker
+         - docker-compose
+  -  name: deploy docker compose stack
+     docker_compose:
+       project_src: '/home/tomek/git/roles/lamp_docker/files'
+       files:
+         - docker-compose.yml
+  -  name: info message
+     debug:
+       msg: " run http://ip:5000"
