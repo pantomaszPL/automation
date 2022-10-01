@@ -1,0 +1,10 @@
+---
+  -  name: cron remove task start
+     hosts: new
+     tasks:
+       -  name: removing task start
+          cron:
+            name: simple cron cron job
+            user: "tomek"
+            cron_file: timedate
+            state: absent

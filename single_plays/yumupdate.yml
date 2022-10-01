@@ -1,0 +1,21 @@
+---
+  -  name:  update playbook start
+     hosts: all
+     tasks:
+       -  name: updatie block start
+          block:
+            -  name: updating
+               yum:
+                 name: '*'
+                 state: latest
+          rescue:
+            -  name: rescue msg
+               debug:
+                 msg: "update failed reverting"
+            -  name: reverting
+               shell:
+                 cmd: "yum history undo last"
+          always:
+            -  name: clean cache
+               shell:
+                 cmd: "yum celan all"

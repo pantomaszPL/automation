@@ -1,0 +1,15 @@
+---
+
+  -  name: cron task playbook start
+     hosts: new
+     tasks:
+       -  name: cron file creation
+          cron:
+            name: simple cron job
+            user: "tomek"
+            minute: "*/2"
+            hour: 10-12
+            weekday: 3,4
+            job: date >> /home/tomek/crontimedate
+            cron_file: timedate
+            state: present
