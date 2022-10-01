@@ -7,7 +7,9 @@ db ansible_hosts=192.168.1.65
 zabbix ansible_hosts=192.168.1.69
 test ansible_hosts=192.168.1.70
 kub1 ansible_hosts=192.168.1.124
-kub2 ansible_hosts=192.168.1.111 
+kub2 ansible_hosts=192.168.1.111
+graylog ansible_hosts=192.168.1.80
+docker 192.168.1.81 
 
 [database]
 db ansible_hosts=192.168.1.65
