@@ -1,0 +1,72 @@
+---
+  -  name: playbook to setup raid start
+     hosts: "{{ hosts_prompt }}"
+     become: true
+     vars:
+       mpoint: /mnt/md0
+       raiddevice: /dev/md0
+       filesystem: ext4
+     vars_prompt:
+       - name: hosts_prompt
+         prompt: provide hostname
+         private: no
+       - name: disk1_name 
+         prompt: provide disk 1 name  ex. vdb/sdb
+         private: no
+       - name: disk2_name
+         prompt: provide disk2 name ex. vcd/sdc
+         private: no
+     tasks:
+       -  name: instal mdadm
+          yum:
+            name: mdadm
+            state: latest
+       -  name: making partition - disk 1
+          parted:
+            number: 1
+            device: '/dev/"{{ disk1_name }}"'
+            flags: "raid"
+            part_start: 1MiB
+            part_end: 100%
+            state: present
+          when: "ansible_devices[{{ 'disk1_name' }}] is defined "
+
+       -  name: making partition - disk2
+          parted:
+            number: 1
+            device: '/dev/"{{ disk2_name }}"'
+            flags: "raid"
+            part_start: 1MiB
+            part_end: 100%
+            state: present
+          when: "ansible_devices[{{ 'disk2_name' }}] is defined"
+
+       -  name: set raid
+          shell: 'yes | mdadm --create {{ raiddevice }} --level=mirror --raid-devices=2 /dev/{{ disk1_name }}1 /dev/{{ disk2_name }}1'
+          register: mdadm_wynik        
+       
+       -  name: check this
+          debug:
+            msg: "{{ mdadm_wynik }}"
+
+              #  -  name: update initramfs
+              #command: "update-initramfs -u"
+              #when: mdadm_wynik.changed
+
+       -  name: make filesystem
+          filesystem:
+            fstype: "{{ filesystem }}"
+            dev: "{{ raiddevice }}"
+            
+       -  name: make mounpoint
+          mount:
+            name: "{{ mpoint }}"
+            src: "{{ raiddevice }}"
+            fstype: "{{ filesystem }}"
+            state: mounted
+          when:
+            -  filesystem  is defined
+            -  mpoint  is defined   
+      
+ 
+          
