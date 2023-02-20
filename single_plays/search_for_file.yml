@@ -1,0 +1,45 @@
+---
+
+  -  name: file searcher
+     hosts: localhost
+     gather_facts: no
+     tasks:
+       -  name: search start
+          stat:
+            path: /home/tomek/git/plik1.log
+          register: ifexists
+       
+       -  name: check
+          debug:
+            msg: "{{ ifexists }}"
+      
+       -  name: output
+          debug:
+            msg: "File exists"
+          when: ifexists.stat.exists
+
+       -  name: using find find log files with lesser than 2d
+          find:
+            paths: /home/tomek/git
+            file_type: file
+            patterns: '*.log'
+            age: -2d
+            age_stamp: mtime
+          register: wynik
+
+       -  name: check if  working
+          debug:
+            msg: "{{ wynik }}"
+  
+       -  name: show files
+          debug:
+            msg: var=item.path
+          with_items: "{{ wynik.files }}"  
+          
+
+       -  name: verbose output
+          debug:
+            msg: files exists 
+          when: ' wynik.matched != 0 '
+          
+
