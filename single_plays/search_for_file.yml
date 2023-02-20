@@ -3,26 +3,29 @@
   -  name: file searcher
      hosts: localhost
      gather_facts: no
+     vars:
+       - path: /home/tomek/git
+       - search_pattern: '*.log'
      tasks:
-       -  name: search start
-          stat:
-            path: /home/tomek/git/plik1.log
-          register: ifexists
+       #  -  name: search start
+       #  stat:
+       #     path: /home/tomek/git/plik1.log
+       #   register: ifexists
        
-       -  name: check
-          debug:
-            msg: "{{ ifexists }}"
+       #-  name: check
+       #   debug:
+       #     msg: "{{ ifexists }}"
       
-       -  name: output
-          debug:
-            msg: "File exists"
-          when: ifexists.stat.exists
+       #-  name: output
+       #   debug:
+       #     msg: "File exists"
+        #   when: ifexists.stat.exists
 
        -  name: using find find log files with lesser than 2d
           find:
-            paths: /home/tomek/git
+            paths: "{{ path }}"
             file_type: file
-            patterns: '*.log'
+            patterns: "{{ search_pattern }}"
             age: -2d
             age_stamp: mtime
           register: wynik
@@ -45,5 +48,5 @@
        -  name: verbose output if file doesnt exist 
           debug:
             msg: files doesnt exists
-          when: ' wynik.matched = 0 '
+          when: ' wynik.matched == 0 '
 
