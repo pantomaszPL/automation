@@ -1,6 +1,6 @@
 ---
 
-  -  name: file searcher
+  -  name: file search and remove
      hosts: localhost
      gather_facts: no
      vars:
@@ -29,6 +29,7 @@
             age: -2d
             age_stamp: mtime
           register: wynik
+          tags: search
 
        -  name: check if  working
           debug:
@@ -38,15 +39,23 @@
           debug:
             msg: var=item.path
           with_items: "{{ wynik.files }}"  
-          
+          tags: search
 
        -  name: verbose output
           debug:
             msg: files exists 
           when: ' wynik.matched != 0 '
-       
+          tags: search
+
        -  name: verbose output if file doesnt exist 
           debug:
             msg: files doesnt exists
           when: ' wynik.matched == 0 '
+          tags: search
 
+
+       -  name: remove found files
+          file:
+            path: "{{ item.path }}"
+            state: absent
+          with_items: "{{ wynik.files  }}"   
