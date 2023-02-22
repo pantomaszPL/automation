@@ -2,7 +2,7 @@
 
   -  name: file search and remove
      hosts: localhost
-     gather_facts: no
+     gather_facts: yes
      vars:
        - path: /home/tomek/git
        - search_pattern: '*.log'
@@ -43,18 +43,18 @@
 
        -  name: verbose output
           debug:
-            msg: files exists 
+            msg: "{{ ansible_hostname }} :  files exists in {{ path }}" 
           when: ' wynik.matched != 0 '
           tags: search
 
        -  name: verbose output if file doesnt exist 
           debug:
-            msg: files doesnt exists
+            msg: "{{ ansible_hostname }} :   files doesnt exists in {{ path }}"
           when: ' wynik.matched == 0 '
           tags: search
 
 
-       -  name: remove found files
+       -  name: remove found  files from {{ path }}
           file:
             path: "{{ item.path }}"
             state: absent
