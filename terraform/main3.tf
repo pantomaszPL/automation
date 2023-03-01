@@ -17,11 +17,11 @@
 
   }
   resource "proxmox_vm_qemu" "test_server"{
-    count = 1
-    name = "test-vm-${count.index + 1}"
+    count = length(var.hostnames)
+    name = var.hostnames[count.index]
     target_node = var.proxmox_host
     clone = var.template_name
- 
+
  #basic vm config
     agent = 1
     os_type = "cloud-init"
@@ -42,13 +42,11 @@
       model = "virtio"
       bridge = "vmbr0"
     }
-    ipconfig0  = "ip=192.168.1.11${count.index + 1}/24,gw=192.168.1.1"
+    ipconfig0  = "ip=${var.ips[count.index]}/24,gw=192.168.1.1"
     ssh_user = "root"
    # sshkeys =
     provisioner "local-exec" {
       working_dir = "/home/tomek/git/terraform/ansible"
-      command = "ansible-playbook  tf_ans_config_vm.yml -vv"       
+      command = "ansible-playbook -i ${var.ips[count.index]}, tf_ans_config_vm.yml"
 }
     }
-
-

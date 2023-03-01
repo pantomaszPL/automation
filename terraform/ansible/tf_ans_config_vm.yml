@@ -13,15 +13,26 @@
             src: /usr/lib/systemd/system/multi-user.target
             dest: /etc/systemd/system/default.target
             state: link
+
+
        -  name: epel installed
           yum:
             name: epel-release
             state: present
+
+       -  name: clean cache
+          command: "yum clean all"
+
+       -  name: update system
+          yum:
+            name: "*"
+            state: latest
        -  name: user add tomek
           user:
             name: tomek
             state: present
             password: "{{ 'tomek211' | password_hash('sha512') }}"
+
        -  name: set sshd keys
           authorized_key:
             user: tomek
@@ -31,11 +42,10 @@
           copy:
             content: " %tomek ALL=(ALL) NOPASSWD: ALL"
             dest: /etc/sudoers.d/tomek
+       -  name: set timezone to Europe/Warsaw
+          timezone:
+            name: Europe/Warsaw
 
-       -  name: update system
-          yum:
-            name: "*"
-            state: latest
 
        -  name: install packages
           yum:
@@ -43,10 +53,10 @@
               - python3
               - tree
               - cockpit
-              - fail2ban
               - wget
-              - ntfs-3g
+    #          - ntfs-3g
               - vim
+              - firewalld
               - net-tools
               - yum-utils
               - qemu-guest-agent
@@ -67,19 +77,6 @@
             state: enabled
             permanent: yes
 
-       -  name: copy fail2ban config to local
-          template:
-            src: /home/tomek/git/terraform/ansible/files/jail.local.j2
-            dest: /etc/fail2ban/jail.local
-            owner: root
-            group: root
-            mode: 0644
-
-       -  name: fail2ban enable and start
-          service:
-            name: fail2ban
-            state: started
-            enabled: true
 
        -  name: sshd restart
           service:
