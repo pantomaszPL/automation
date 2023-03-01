@@ -43,7 +43,9 @@
          - vim
          - net-tools
          - yum-utils
-        
+         - qemu-guest-agent 
+         - lvm2
+
        state: latest
 
   -  name: enable cockpit service

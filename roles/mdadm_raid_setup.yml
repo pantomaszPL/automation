@@ -57,6 +57,9 @@
           filesystem:
             fstype: "{{ filesystem }}"
             dev: "{{ raiddevice }}"
+          when:
+            - filesystem is defined
+            - raiddevice is defined
             
        -  name: make mounpoint
           mount:
