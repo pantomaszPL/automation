@@ -1,0 +1,19 @@
+[default]
+#24h ban
+bantime = 86400
+
+#if max 3 retries during last 600 sec
+findtime = 600
+maxretry =3
+
+ignoreip = 127.0.0.1/8 
+
+#call iptables ot ban IP
+banaction  = iptables-multiport
+
+
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+
