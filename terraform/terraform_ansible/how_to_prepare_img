@@ -1,0 +1,29 @@
+# download the image
+wget https://cloud-images.ubuntu.com/oracular/current/oracular-server-cloudimg-amd64.img
+
+# download libguestfs for the virt-customise tool 
+apt update -y && apt install libguestfs-tools -y
+
+# configure the image with qemu-guest-agent using virt customise
+virt-customize -a oracular-server-cloudimg-amd64.img --install qemu-guest-agent
+
+# create a new VM with VirtIO SCSI controller
+qm create 9003 --memory 2048 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci
+
+# import the downloaded disk to the local-lvm storage, attaching it as a SCSI drive
+# note that import path must be a full path, not relative
+qm set 9003 --scsi0 usbdisk:0,import-from=/root/oracular-server-cloudimg-amd64.img
+
+# set boot and display options
+qm set 9003--ide2 usbdisk:cloudinit
+qm set 9003 --serial0 socket --vga serial0
+
+# very important - had to be updated in the image
+qm set 9003 --boot c --bootdisk scsi0
+
+
+on proxmox change disk size on created vm to desired one (telmate provider got problems with changing size during provisioning)
+if simply resize doesnt work, use migrate option
+
+# turn the VM into a template
+qm template 9003
