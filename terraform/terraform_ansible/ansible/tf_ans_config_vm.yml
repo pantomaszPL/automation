@@ -32,10 +32,12 @@
             user: tomek
             state: present
             key: "{{ lookup('file','/home/tomek/.ssh/id_rsa.pub') }}"
+
        -  name: add user tomek to sudoers
           copy:
             content: " %tomek ALL=(ALL) NOPASSWD: ALL"
             dest: /etc/sudoers.d/tomek
+
        -  name: set timezone to Europe/Warsaw
           timezone:
             name: Europe/Warsaw
@@ -43,19 +45,18 @@
 
        -  name: install packages
           dnf:
-            name:
+            name: {{ item }}
+            state: latest
+          loop:  
               - python3
-              - tree
              # - cockpit
               - wget
               - vim
-             # - firewalld
+              - firewalld
               - net-tools
               - yum-utils
               - qemu-guest-agent
 
-
-            state: latest
 
       # -  name: enable cockpit service
       #    systemd:
@@ -78,7 +79,7 @@
        -  name: clean cache
           command: "dnf  clean all"
 
-       -  name: sshd restart
+       -  name: sshd reload
           service:
             name: sshd
             state: restarted

@@ -39,6 +39,7 @@ resource "proxmox_vm_qemu" "cloudinit-example" {
   ciupgrade  = true
   nameserver = "1.1.1.1 8.8.8.8"
   ipconfig0  = "ip=${var.ips[count.index]}/24,gw=192.168.1.1"
+  ipconfig1  = "ip=${var.ips1[count.index]}/24"
   skip_ipv6  = true
   ciuser     = "root"
   cipassword = "tomek211"
@@ -74,6 +75,12 @@ resource "proxmox_vm_qemu" "cloudinit-example" {
     id = 0
     bridge = "vmbr0"
     model  = "virtio"
+  }
+
+    network {
+    id = 1
+    bridge = "vmbr1"
+    model = "virtio"
   }
     sshkeys = <<EOF
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCz70fWQiuaOjwFUMOhmgDzpOvMX5tZpdScmzHj1sfh1zcuCpM/V7ayG4q2fzl6aIy9pEatOPyFo0B1TsL2StxndlBZRM/ewa4rzOozwRgVzGNpPxUqWrsjh3Rl1H1hTokq/jk7qSOPwHObFawBUlJzXN8/tEpeF1wBfozro9fBNUUUukl5hqjKwhXUyVc+3S8EOfq3BAUJFyj+Flnybfu/vciaXp9bAryB/P7XDq8PPZ4SWm/rVSO/5qYZwMZ+8//gT7tFeGbE6f+nQgACFYYQtbgVwySlS+AQB8FjI9OkvStAi+p4ZR0I5EQJxoAFAkH7n3klr8oFNGSxrUqUdeP35+z6TwleiBBtZ57XXYHFylaMCgo+d7vPnduMqoqhKZsJktfKzI723qNdz0T5dhYYWXyL7RJya6GmVzEv/grwWl6jIVBGdu7hKgQuBvH0oSEfXXpmUkBTipvAFAPokSNRtePJ5/6sHhyrIt22kWM4X2R4k2ljc2/NrowRfz7q8Hs= root@fedora-lap
