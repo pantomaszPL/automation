@@ -1,0 +1,85 @@
+---
+
+
+  -  name: config created vm start
+     hosts: all
+     become: true
+          #    -  name: vm
+          # prompt: provide name where to start playbook
+          #private: no
+     tasks:
+       -  name: setup new vm -set default multi-user target
+          file:
+            src: /usr/lib/systemd/system/multi-user.target
+            dest: /etc/systemd/system/default.target
+            state: link
+
+
+
+
+      # -  name: update system
+       #   dnf:
+        #    name: "*"
+         #   state: latest
+       -  name: user add tomek
+          user:
+            name: tomek
+            state: present
+            password: "{{ 'tomek211' | password_hash('sha512') }}"
+
+       -  name: set sshd keys
+          authorized_key:
+            user: tomek
+            state: present
+            key: "{{ lookup('file','/home/tomek/.ssh/id_rsa.pub') }}"
+
+       -  name: add user tomek to sudoers
+          copy:
+            content: " %tomek ALL=(ALL) NOPASSWD: ALL"
+            dest: /etc/sudoers.d/tomek
+
+       -  name: set timezone to Europe/Warsaw
+          timezone:
+            name: Europe/Warsaw
+
+
+       -  name: install packages
+          dnf:
+            name: {{ item }}
+            state: latest
+          loop:  
+              - python3
+             # - cockpit
+              - wget
+              - vim
+              - firewalld
+              - net-tools
+              - yum-utils
+              - qemu-guest-agent
+
+
+      # -  name: enable cockpit service
+      #    systemd:
+      #      name: "cockpit.socket"
+      #      enabled: true
+      #      state: started
+
+      # -  name: set firewall for cockpit
+      #    firewalld:
+      #      service: cockpit
+      #      state: enabled
+      #      permanent: yes
+       -  name: disable firewalld
+            systemd:
+              name: "firewalld"
+              enabled: false
+              state: stopped
+          ignore_errors: true
+
+       -  name: clean cache
+          command: "dnf  clean all"
+
+       -  name: sshd reload
+          service:
+            name: sshd
+            state: restarted
