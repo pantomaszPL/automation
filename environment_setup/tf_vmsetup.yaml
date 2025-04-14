@@ -1,0 +1,8 @@
+---
+
+
+  -  name: "setting vms after deploy role start"
+     hosts: all
+     become: true
+     roles:
+       - vmsetup 
