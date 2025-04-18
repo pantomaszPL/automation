@@ -8,13 +8,13 @@
   }
 
   variable "hostnames"{
-    description = "new VMs names"
+    description = "jumps names"
     type = list(string)
-    default = ["bastion"]
+    default = ["jump"]
     }
 
   variable  "hostnames1"{
-    description = "k3 names"
+    description = "tools names"
     type = list(string)
     default = ["tool"]
   }   

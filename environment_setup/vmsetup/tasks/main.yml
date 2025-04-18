@@ -1,2 +1,7 @@
 ---
+
 # tasks file for vmsetup
+  - import_tasks: usersandkeys.yml
+  - import_tasks: programs.yml
+  - import_tasks: defaulttarget.yml
+  - import_tasks: other.yaml

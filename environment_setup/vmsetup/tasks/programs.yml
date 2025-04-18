@@ -1,0 +1,17 @@
+---
+
+       -  name: install packages
+          dnf:
+            name: "{{ item }}"
+            state: latest
+          loop:
+              - python3
+             # - cockpit
+              - wget
+              - vim
+              - firewalld
+              - net-tools
+              - yum-utils
+              - qemu-guest-agent
+              - fail2ban
+
