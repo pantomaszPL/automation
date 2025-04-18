@@ -102,7 +102,7 @@ resource "proxmox_vm_qemu" "cloudinit-jump" {
 
 resource "proxmox_vm_qemu" "cloudinit-tool" {
   #vmid        = 100
-  count       = length(var.hostnames)
+  count       = length(var.hostnames1)
   name        = var.hostnames1[count.index]
   target_node = "pve"
   agent       = 1
