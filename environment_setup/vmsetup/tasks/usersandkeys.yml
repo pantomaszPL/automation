@@ -53,6 +53,7 @@
      blockinfile:
        path: /etc/ssh/sshd_config
        block: |
+         Match User jump
          PermitTTY no
          X11Forwarding no
          PermitTunnel no
