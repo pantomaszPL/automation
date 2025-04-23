@@ -9,8 +9,8 @@
 
   -  name: tomek - config sudoers
      copy:
-       content: "%tomek ALL=(ALL) NOPASSWD: ALL"
-       dest: /etc/sudoers.d/ansible
+       content: "tomek ALL=(ALL) NOPASSWD: ALL"
+       dest: /etc/sudoers.d/tomek
 
   -  name: set sshd keys
      authorized_key:
@@ -41,7 +41,7 @@
 
   -  name: ansible - enable passwd login
      blockinfile: 
-       path: /etc/ssh/sshd_config
+       path: /etc/ssh/sshd_config.d/ansible.conf
        #append_newline: true
        #prepend_newline: true
        block: |
@@ -51,7 +51,7 @@
 
   -  name: jump - set sshd config
      blockinfile:
-       path: /etc/ssh/sshd_config
+       path: /etc/ssh/sshd_config.d/jump.conf
        block: |
          Match User jump
          PermitTTY no
