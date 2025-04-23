@@ -52,13 +52,13 @@
   -  name: jump - set sshd config
      blockinfile:
        path: /etc/ssh/sshd_config
-       block:
+       block: |
          PermitTTY no
          X11Forwarding no
          PermitTunnel no
          GatewayPorts no
          ForceCommand /usr/sbin/nologin
-     when: "'jump'" in group names"  
+     when: "'jump' in group_names"  
 
 ## experimental 
   -  name: set sshd key
