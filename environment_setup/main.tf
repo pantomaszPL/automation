@@ -91,8 +91,8 @@ resource "proxmox_vm_qemu" "cloudinit-jump" {
    EOF
 
          provisioner "local-exec" {
-        working_dir = "/home/tomek/git/terraform/terraform_ansible/ansible"
-        command = "sleep 500 && ansible-playbook  tf_vmsetup.yaml"
+        working_dir = "/home/tomek/automation/environment_setup/"
+        command = "sleep 500 && ansible-playbook -i inventory  tf_vmsetup.yaml"
       }
 
 }
