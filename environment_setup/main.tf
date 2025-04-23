@@ -38,8 +38,8 @@ resource "proxmox_vm_qemu" "cloudinit-jump" {
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
   ciupgrade  = true
   nameserver = "1.1.1.1 8.8.8.8"
-  ipconfig0  = "ip=${var.ipsjump[count.index]}/24,gw=192.168.1.1"
-  ipconfig1  = "ip=${var.ipkijump[count.index]}/24"
+  ipconfig0  = "ip=${var.ipsjumpexternal[count.index]}/24,gw=192.168.1.1"
+  ipconfig1  = "ip=${var.ipsjumpinternal[count.index]}/24"
   skip_ipv6  = true
   ciuser     = "root"
   cipassword = "tomek211"
@@ -118,8 +118,8 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
   ciupgrade  = true
   nameserver = "1.1.1.1 8.8.8.8"
-  ipconfig0  = "ip=${var.ipstool[count.index]}/24,gw=192.168.1.1"
-  ipconfig1  = "ip=${var.ipkitool[count.index]}/24"
+  ipconfig0  = "ip=${var.ipstoolexternal[count.index]}/24,gw=192.168.1.1"
+  ipconfig1  = "ip=${var.ipstoolinternal[count.index]}/24"
   skip_ipv6  = true
   ciuser     = "root"
   cipassword = "tomek211"
