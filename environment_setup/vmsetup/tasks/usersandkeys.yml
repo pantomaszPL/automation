@@ -47,7 +47,18 @@
        block: |
          Match User ansible
          PasswordAuthentication yes
-         PubkeyAuthentication no  
+         PubkeyAuthentication no
+
+  -  name: jump - set sshd config
+     blockinfile:
+       path: /etc/ssh/sshd_config
+       block:
+         PermitTTY no
+         X11Forwarding no
+         PermitTunnel no
+         GatewayPorts no
+         ForceCommand /usr/sbin/nologin
+     when: "'jump'" in group names"  
 
 ## experimental 
   -  name: set sshd key
