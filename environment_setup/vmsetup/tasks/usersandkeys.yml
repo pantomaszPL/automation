@@ -38,6 +38,11 @@
        content: "ansible ALL=(ALL) NOPASSWD: ALL"
        dest: /etc/sudoers.d/ansible
 
+  -  name: ansible - create sshd config file
+     file:
+       path: /etc/ssh/sshd_config.d/ansible.conf
+       state: touch
+       mode: u+rw,g-rwx,o-rwx 
 
   -  name: ansible - enable passwd login
      blockinfile: 
@@ -48,6 +53,12 @@
          Match User ansible
          PasswordAuthentication yes
          PubkeyAuthentication no
+
+  -  name: jump - create sshd config file
+     file:
+       path: /etc/ssh/sshd_config.d/jump.conf
+       state: touch
+       mode: u+rw,g-rwx,o-rwx
 
   -  name: jump - set sshd config
      blockinfile:
