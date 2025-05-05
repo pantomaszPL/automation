@@ -1,0 +1,13 @@
+---
+
+
+  -  name: "setting vms after deploy role start"
+     hosts: all
+     become: true
+     roles:
+       - vmsetup
+
+  -  name: "setup k3 installation"
+     hosts: localhost
+     roles:
+       - k3setup 

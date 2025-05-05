@@ -1,0 +1,91 @@
+---
+
+  -  name: tomek - add user and group
+     user:
+       name: tomek
+       password: "{{ 'tomek211' | password_hash('sha512') }}"
+       state: present
+ 
+
+  -  name: tomek - config sudoers
+     copy:
+       content: "tomek ALL=(ALL) NOPASSWD: ALL"
+       dest: /etc/sudoers.d/tomek
+
+  -  name: set sshd keys
+     authorized_key:
+       user: tomek
+       state: present
+       key: "{{ lookup('file','/home/tomek/.ssh/id_rsa.pub') }}"
+
+  
+  -  name: jump - add user and group
+     user: 
+       name: jump
+       password: "{{ 'tomek211' | password_hash('sha512') }}"
+       state: present
+
+
+  -  name: ansible - add user and grp
+     user: 
+       name: ansible
+       state: present
+       password: "{{ 'tomek211' | password_hash('sha512') }}"
+
+
+  -  name: ansible - config sudoers
+     copy:
+       content: "ansible ALL=(ALL) NOPASSWD: ALL"
+       dest: /etc/sudoers.d/ansible
+
+  -  name: ansible - create sshd config file
+     file:
+       path: /etc/ssh/sshd_config.d/ansible.conf
+       state: touch
+       mode: u+rw,g-rwx,o-rwx 
+
+  -  name: ansible - enable passwd login
+     blockinfile: 
+       path: /etc/ssh/sshd_config.d/ansible.conf
+       #append_newline: true
+       #prepend_newline: true
+       block: |
+         Match User ansible
+         PasswordAuthentication yes
+         PubkeyAuthentication no
+
+  -  name: jump - create sshd config file
+     file:
+       path: /etc/ssh/sshd_config.d/jump.conf
+       state: touch
+       mode: u+rw,g-rwx,o-rwx
+
+  -  name: jump - set sshd config
+     blockinfile:
+       path: /etc/ssh/sshd_config.d/jump.conf
+       block: |
+         Match User jump
+         PermitTTY no
+         X11Forwarding no
+         PermitTunnel no
+         GatewayPorts no
+         ForceCommand /usr/sbin/nologin
+     when: "'jump' in group_names"  
+
+## experimental 
+  -  name: set sshd key
+     authorized_key:
+       user: jump
+       state: present
+       key: "{{ lookup('file','/home/tomek/.ssh/id_rsa.pub') }}"  
+
+  -  name: sshd restart
+     service:
+       name: sshd
+       state: restarted
+
+
+
+
+
+ 

@@ -1,0 +1,12 @@
+---
+
+
+  -  name: set timezone to Europe/Warsaw
+     timezone:
+       name: Europe/Warsaw
+
+  -  name: set multi-user target as default
+     file:
+       src: /usr/lib/systemd/system/multi-user.target
+       dest: /etc/systemd/system/default.target
+       state: link

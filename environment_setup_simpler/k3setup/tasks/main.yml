@@ -1,0 +1,9 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for k3setup
+#
+  -  name: download k3 git role
+     git:
+       repo: 'https://github.com/k3s-io/k3s-ansible.git'
+       dest: '/home/tomek/automation/environment_setup_simpler'
+

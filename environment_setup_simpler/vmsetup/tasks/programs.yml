@@ -1,0 +1,14 @@
+---
+
+       -  name: install packages
+          dnf:
+            name: "{{ item }}"
+            state: latest
+          loop:
+              - wget
+              - vim
+              - firewalld
+              - net-tools
+              - qemu-guest-agent
+              - fail2ban
+
