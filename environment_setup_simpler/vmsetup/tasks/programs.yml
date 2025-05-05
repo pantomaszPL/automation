@@ -11,4 +11,5 @@
               - net-tools
               - qemu-guest-agent
               - fail2ban
+          ignore_errors: true
 
