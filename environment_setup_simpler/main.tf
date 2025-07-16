@@ -36,7 +36,7 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
 
   # Cloud-Init configuration
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
-  ciupgrade  = true
+  ciupgrade  = false
   nameserver = "1.1.1.1 8.8.8.8"
   ipconfig0  = "ip=${var.ipstool[count.index]}/24,gw=192.168.1.1"
   skip_ipv6  = true
@@ -89,9 +89,9 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCq4hZNTWjmOtPmTX1OWtfpa5T5eoMFYp53yfalAd+2FRyOn8I9YLZo7ZDOJWhiB9uJK8WBNuMRMa3I8xzkhkq7xVLJ1jjUz/6MUCs4EawWOYT1o8M9+ObtNJzzp+H2HEmJhzlJVMg65n3rVxnGaym+p/L5FK9EEzu24/bSG3JewzEZjlXMXqSVgEHVijDRJarMfLTlaoFtztOhTdJ9rENi2VKonFyOp/wYPzauHTSTcSnVGbMur4tJkKNEKmP64EKrlUcJ/x9hTA8Wdtz0wDex/BmkyxZOjqkCIH09AywulZwAOQ9vi8o4G/ZLfhbCQYV68gNmsSAsby4T7M0tjfQZP4ifwicBJ0ubFfgSkM+x2k4lwrlcCkuOQ2eNW4OT/VhGrROi6DIOQqEMC6KIk9WGlzChooDJJfWiv/DmfrNsPH1PKDRaLXs8UsOigkJ9jK6fTRvzpfhwO2sgwBD1mhoLu9f5PeujNvDvdw8L4fQesPqyoKE3OZSnaI6GPdjxqes= tomek@fedora-lap
    EOF
 
-         provisioner "local-exec" {
+        provisioner "local-exec" {
         working_dir = "/home/tomek/automation/environment_setup_simpler/"
-        command = "sleep 600 && ansible-playbook -i ${var.ipstool[count.index]}, tf_vmsetup.yaml"
+        command = "sleep 300 && ansible-playbook -i ${var.ipstool[count.index]}, tf_vmsetup.yaml"
       }
 
 }
@@ -115,7 +115,7 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
 
   # Cloud-Init configuration
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
-  ciupgrade  = true
+  ciupgrade  = false
   nameserver = "1.1.1.1 8.8.8.8"
   ipconfig0  = "ip=${var.k3ips[count.index]}/24,gw=192.168.1.1"
   skip_ipv6  = true
@@ -168,9 +168,9 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCq4hZNTWjmOtPmTX1OWtfpa5T5eoMFYp53yfalAd+2FRyOn8I9YLZo7ZDOJWhiB9uJK8WBNuMRMa3I8xzkhkq7xVLJ1jjUz/6MUCs4EawWOYT1o8M9+ObtNJzzp+H2HEmJhzlJVMg65n3rVxnGaym+p/L5FK9EEzu24/bSG3JewzEZjlXMXqSVgEHVijDRJarMfLTlaoFtztOhTdJ9rENi2VKonFyOp/wYPzauHTSTcSnVGbMur4tJkKNEKmP64EKrlUcJ/x9hTA8Wdtz0wDex/BmkyxZOjqkCIH09AywulZwAOQ9vi8o4G/ZLfhbCQYV68gNmsSAsby4T7M0tjfQZP4ifwicBJ0ubFfgSkM+x2k4lwrlcCkuOQ2eNW4OT/VhGrROi6DIOQqEMC6KIk9WGlzChooDJJfWiv/DmfrNsPH1PKDRaLXs8UsOigkJ9jK6fTRvzpfhwO2sgwBD1mhoLu9f5PeujNvDvdw8L4fQesPqyoKE3OZSnaI6GPdjxqes= tomek@fedora-lap
     EOF
 
-             provisioner "local-exec" {
+       provisioner "local-exec" {
        working_dir = "/home/tomek/automation/environment_setup_simpler/"
-       command = "sleep 600 && ansible-playbook -i ${var.k3ips[count.index]}, tf_vmsetup.yaml"
+       command = "sleep 300 && ansible-playbook -i ${var.k3ips[count.index]}, tf_vmsetup.yaml"
      }
 
 }
