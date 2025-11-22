@@ -2,7 +2,7 @@ terraform {
   required_providers {
     proxmox = {
       source = "Telmate/proxmox"
-      version = "3.0.1-rc6"
+      version = "3.0.2-rc05"
     }
   }
 }
@@ -37,7 +37,7 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
   # Cloud-Init configuration
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
   ciupgrade  = false
-  nameserver = "1.1.1.1 8.8.8.8"
+  nameserver = "192.168.1.35 8.8.8.8"
   ipconfig0  = "ip=${var.ipstool[count.index]}/24,gw=192.168.1.1"
   skip_ipv6  = true
   ciuser     = "root"
@@ -116,7 +116,7 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
   # Cloud-Init configuration
   #cicustom   = "vendor=local:snippets/qemu-guest-agent.yml" # /var/lib/vz/snippets/qemu-guest-agent.yml
   ciupgrade  = false
-  nameserver = "1.1.1.1 8.8.8.8"
+  nameserver = "192.168.1.35 8.8.8.8"
   ipconfig0  = "ip=${var.k3ips[count.index]}/24,gw=192.168.1.1"
   skip_ipv6  = true
   ciuser     = "root"
