@@ -11,9 +11,9 @@ terraform {
 
 
 provider "proxmox" {
-    pm_api_url = "https://192.168.1.32:8006/api2/json"
+    pm_api_url = "https://192.168.1.36:8006/api2/json"
     pm_api_token_id = "terraform-prov@pve!terraform-token"
-    pm_api_token_secret = "7cff8927-7130-4883-9df4-3ba895670a32"
+    pm_api_token_secret = "08401cd0-c027-45d1-b2ba-14ba8eee77c5"
     pm_tls_insecure = true
 }
 
@@ -24,12 +24,12 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
   #vmid        = 100
   count       = length(var.hostnames)
   name        = var.hostnames[count.index]
-  target_node = "pve"
+  target_node = "pve1"
   agent       = 1
   cores       = 2
   memory      = 2048
   boot        = "order=scsi0" # has to be the same as the OS disk of the template
-  clone       = "templatka8g" # The name of the template
+  clone       = "templatka" # The name of the template
   scsihw      = "virtio-scsi-single"
   vm_state    = "running"
   automatic_reboot = true
@@ -54,9 +54,9 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
       scsi0 {
         # We have to specify the disk from our template, else Terraform will think it's not supposed to be there
         disk {
-          storage = "usbdisk"
+          storage = "local-lvm"
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
-          size    = "9G" 
+          size    = "10G" 
         }
       }
     }
@@ -64,7 +64,7 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
       # Some images require a cloud-init disk on the IDE controller, others on the SCSI or SATA controller
       ide2 {
         cloudinit {
-          storage = "usbdisk"
+          storage = "local-lvm"
         }
       }
     }
@@ -77,11 +77,11 @@ resource "proxmox_vm_qemu" "cloudinit-tool" {
 
   }
 
-  network {
-    id = 1
-    bridge = "vmbr1"
-    model = "virtio"
-  }
+  #network {
+  #  id = 1
+  #  bridge = "vmbr1"
+  #  model = "virtio"
+  #}
 
 
    sshkeys = <<EOF
@@ -103,12 +103,12 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
   #vmid        = 100
   count       = length(var.k3hostnames)
   name        = var.k3hostnames[count.index]
-  target_node = "pve"
+  target_node = "pve1"
   agent       = 1
   cores       = 2
   memory      = 3072
   boot        = "order=scsi0" # has to be the same as the OS disk of the template
-  clone       = "templatka8g" # The name of the template
+  clone       = "templatka" # The name of the template
   scsihw      = "virtio-scsi-single"
   vm_state    = "running"
   automatic_reboot = true
@@ -133,9 +133,9 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
       scsi0 {
         # We have to specify the disk from our template, else Terraform will think it's not supposed to be there
         disk {
-          storage = "usbdisk"
+          storage = "local-lvm"
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
-          size    = "9G" 
+          size    = "10G" 
         }
       }
     }
@@ -143,7 +143,7 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
       # Some images require a cloud-init disk on the IDE controller, others on the SCSI or SATA controller
       ide2 {
         cloudinit {
-          storage = "usbdisk"
+          storage = "local-lvm"
         }
       }
     }
@@ -156,11 +156,11 @@ resource "proxmox_vm_qemu" "cloudinit-k3" {
 
   }
 
-  network {
-    id = 1
-    bridge = "vmbr1"
-    model = "virtio"
-  }
+  #network {
+  #  id = 1
+  #  bridge = "vmbr1"
+  #  model = "virtio"
+  #}
 
 
     sshkeys = <<EOF
