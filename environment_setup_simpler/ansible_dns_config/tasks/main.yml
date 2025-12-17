@@ -1,0 +1,56 @@
+#SPDX-License-Identifier: MIT-0
+
+
+
+---
+
+
+#  vars:
+#    zone_name: "home.lab"
+#    zone_file: "/etc/bind/db.home.lab"
+#    server1_ip: "192.168.1.114"
+
+  
+    - name: Install BIND9
+      apt:
+        name: bind9
+        state: present
+        update_cache: yes
+
+    - name: Configure zone definition
+      template:
+        src: named.conf.local.j2
+        dest: /etc/bind/named.conf.local
+        owner: root
+        group: bind
+        mode: "0644"
+   
+    - name: Restart bind9
+      service:
+        name: bind9
+        state: restarted
+
+
+    - name: Create zone file for home.lab
+      template:
+        src: db.home.lab.j2
+        dest: "{{ zone_file }}"
+        owner: root
+        group: bind
+        mode: "0644"
+    
+
+    - name: Restart bind9
+      service:
+        name: bind9
+        state: restarted
+    
+
+    - name: Ensure bind9 is enabled and running
+      service:
+        name: bind9
+        state: started
+        enabled: yes
+
+
+

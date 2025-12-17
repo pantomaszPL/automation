@@ -1,0 +1,13 @@
+---
+
+
+  -  name: "setting coonfig for dns vm"
+     hosts: all
+     become: true
+     roles:
+       - ansible_dns_config
+     vars:
+      zone_name: "home.lab"
+      zone_file: "/etc/bind/db.home.lab"
+      server1_ip: "192.168.1.114"
+  
