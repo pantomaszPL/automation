@@ -10,3 +10,14 @@
        src: /usr/lib/systemd/system/multi-user.target
        dest: /etc/systemd/system/default.target
        state: link
+  
+  -  name: add networkmanager search zone as home.lab
+     command: >
+      nmcli connection modify "cloud-init eth0" +ipv4.dns-search "home.lab"
+
+  -  name: Restart NetworkManager
+     service:
+       name: NetworkManager
+       state: restarted 
+       
+

@@ -9,5 +9,12 @@
      vars:
       zone_name: "home.lab"
       zone_file: "/etc/bind/db.home.lab"
-      server1_ip: "192.168.1.114"
-  
+      master_ip: "192.168.1.113"
+      worker1_ip: "192.168.1.114"
+      worker2_ip: "192.168.1.115"
+
+#  -  name: installl techjnitium collection
+#     hosts: localhost
+#     tasks:
+#       - name: install technititium collection
+#         command: ansible-galaxy collection install effectivelywild.technitium_dns   
